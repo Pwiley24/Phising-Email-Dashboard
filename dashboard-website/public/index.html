@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phishing Queue Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand" id="brand"></div>
+    <div class="range">
+      <label>From <input id="t-from" type="datetime-local"></label>
+      <label>To <input id="t-to" type="datetime-local"></label>
+    </div>
+    <div class="builder">
+      <select id="f-field" aria-label="Column"></select>
+      <select id="f-op" aria-label="Operator"></select>
+      <input id="f-value" type="text" list="f-vals" placeholder="Value" autocomplete="off" aria-label="Value">
+      <datalist id="f-vals"></datalist>
+      <button id="f-add" type="button">Add filter</button>
+    </div>
+    <button class="clear" id="clear" type="button">Clear filters</button>
+    <div class="chips" id="chips"></div>
+  </div>
+</header>
+
+<main>
+  <h1 id="title"></h1>
+  <p class="sub" id="sub"></p>
+
+  <section class="stats" id="stats" aria-label="Summary"></section>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr id="head"></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden></div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
