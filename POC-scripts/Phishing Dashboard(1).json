@@ -1,0 +1,266 @@
+{
+  "description": "",
+  "options": {
+    "auto_apply_filters": true,
+    "hide_panel_borders": false,
+    "hide_panel_titles": false,
+    "sync_colors": false,
+    "sync_cursor": true,
+    "sync_tooltips": false,
+    "use_margins": true
+  },
+  "tags": [],
+  "title": "Phishing Dashboard",
+  "filters": [],
+  "esql_approximation": false,
+  "query": {
+    "expression": "not queue_status:researched",
+    "language": "kql"
+  },
+  "panels": [
+    {
+      "grid": {
+        "y": 0,
+        "x": 0,
+        "w": 7,
+        "h": 3
+      },
+      "config": {
+        "data_source": {
+          "type": "data_view_reference",
+          "ref_id": "838a2453-1db0-4983-8dbf-c5de60ac68ae"
+        },
+        "type": "metric",
+        "sampling": 1,
+        "ignore_global_filters": false,
+        "metrics": [
+          {
+            "type": "primary",
+            "operation": "count",
+            "empty_as_null": true,
+            "label": "Total Emails",
+            "color": {
+              "type": "auto"
+            }
+          }
+        ],
+        "styling": {
+          "density": "default",
+          "primary": {
+            "position": "bottom",
+            "labels": {
+              "alignment": "left"
+            },
+            "value": {
+              "sizing": "auto",
+              "alignment": "right"
+            }
+          }
+        }
+      },
+      "id": "47657ad9-b3ac-4af3-92d8-cfa0b29adfb1",
+      "type": "vis"
+    },
+    {
+      "grid": {
+        "y": 0,
+        "x": 7,
+        "w": 41,
+        "h": 6
+      },
+      "config": {
+        "type": "xy",
+        "layers": [
+          {
+            "type": "bar_stacked",
+            "data_source": {
+              "type": "esql",
+              "query": "FROM email_logs\r\n| STATS emails = COUNT(*) BY bucket = BUCKET(@timestamp, 30, ?_tstart, ?_tend)\r\n| SORT bucket"
+            },
+            "sampling": 1,
+            "ignore_global_filters": false,
+            "x": {
+              "column": "bucket",
+              "label": "Timestamp"
+            },
+            "y": [
+              {
+                "column": "emails",
+                "label": "Emails",
+                "color": {
+                  "type": "auto"
+                }
+              }
+            ]
+          }
+        ],
+        "axis": {
+          "x": {
+            "title": {
+              "visible": true
+            },
+            "ticks": {
+              "visible": true
+            },
+            "grid": {
+              "visible": true
+            },
+            "domain": {
+              "type": "fit",
+              "rounding": false
+            },
+            "labels": {
+              "orientation": "horizontal"
+            },
+            "scale": "temporal"
+          },
+          "y": {
+            "title": {
+              "visible": true
+            },
+            "scale": "linear",
+            "ticks": {
+              "visible": true
+            },
+            "grid": {
+              "visible": true
+            },
+            "domain": {
+              "type": "full",
+              "rounding": true
+            },
+            "labels": {
+              "orientation": "horizontal"
+            }
+          }
+        },
+        "styling": {
+          "overlays": {
+            "partial_buckets": {
+              "visible": false
+            },
+            "current_time_marker": {
+              "visible": false
+            }
+          },
+          "bars": {
+            "minimum_height": 1,
+            "data_labels": {
+              "visible": false
+            }
+          }
+        },
+        "legend": {
+          "placement": "outside",
+          "position": "right",
+          "layout": {
+            "type": "grid",
+            "truncate": {
+              "max_lines": 1
+            }
+          },
+          "visibility": "visible"
+        }
+      },
+      "id": "0ef6f50a-d90f-4374-ac38-dbc6a9b0f8a2",
+      "type": "vis"
+    },
+    {
+      "grid": {
+        "y": 6,
+        "x": 0,
+        "w": 48,
+        "h": 14
+      },
+      "config": {
+        "type": "data_table",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM email_logs"
+        },
+        "sampling": 1,
+        "ignore_global_filters": false,
+        "metrics": [
+          {
+            "column": "@timestamp",
+            "width": 225.8
+          },
+          {
+            "column": "subject"
+          },
+          {
+            "column": "recipient"
+          },
+          {
+            "column": "sender"
+          },
+          {
+            "column": "source",
+            "label": "Client"
+          },
+          {
+            "column": "urls"
+          },
+          {
+            "column": "spam_score"
+          },
+          {
+            "column": "status"
+          }
+        ],
+        "styling": {
+          "row_numbers": {
+            "visible": true
+          }
+        }
+      },
+      "id": "75cad2c1-13d2-4b33-a30c-2eb8bab1afbd",
+      "type": "vis"
+    },
+    {
+      "grid": {
+        "y": 3,
+        "x": 0,
+        "w": 7,
+        "h": 3
+      },
+      "config": {
+        "data_source": {
+          "type": "data_view_reference",
+          "ref_id": "838a2453-1db0-4983-8dbf-c5de60ac68ae"
+        },
+        "type": "metric",
+        "sampling": 1,
+        "ignore_global_filters": false,
+        "metrics": [
+          {
+            "type": "primary",
+            "operation": "unique_count",
+            "field": "source",
+            "empty_as_null": true,
+            "label": "Clients",
+            "color": {
+              "type": "auto"
+            }
+          }
+        ],
+        "styling": {
+          "density": "default",
+          "primary": {
+            "position": "bottom",
+            "labels": {
+              "alignment": "left"
+            },
+            "value": {
+              "sizing": "auto",
+              "alignment": "right"
+            }
+          }
+        }
+      },
+      "id": "2fd7f21a-eeb7-463e-8156-8456c822f1de",
+      "type": "vis"
+    }
+  ],
+  "pinned_panels": []
+}
